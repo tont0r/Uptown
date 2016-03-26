@@ -47,7 +47,6 @@ public class NpcController : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log(other.gameObject.tag);
         if (other.gameObject.tag != "Player")
             return;
         Controller controller = other.gameObject.GetComponent<Controller>();
@@ -60,7 +59,6 @@ public class NpcController : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D other)
     {
-        Debug.Log(other.gameObject.tag);
         if (other.gameObject.tag != "Player")             
             return;
         

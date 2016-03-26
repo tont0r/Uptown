@@ -1,18 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using Fungus;
 
 public class Controller : MonoBehaviour {
     public int speed = 5;
+    public Flowchart flowChart;
+    public Text moneyText;
+
+    private int money = 50;
+    private bool inFlowChart;
     private bool interacting;
     private GameObject npcObject;
     private bool talking;
+
 	void Start () {
-        
+        flowChart.SetIntegerVariable("money",money);
+        updateMoney();
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if (inFlowChart)
+            return;
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0);
         
         Vector3 newPosition = transform.position + (move * speed * Time.deltaTime);
@@ -58,6 +68,23 @@ public class Controller : MonoBehaviour {
             talking = false;
             npcObject = null;
         }
+    }
+
+    public void boughtItem(int cost)
+    {   
+        money -= cost;
+        updateMoney();
+    }
+
+    public void setInFlowChart(bool inFlowChart)
+    {
+        this.inFlowChart = inFlowChart;
+    }
+
+    private void updateMoney()
+    {
+        moneyText.text = "Money :" + money;
+        flowChart.SetIntegerVariable("money", money);
     }
     
 }
