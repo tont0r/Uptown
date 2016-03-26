@@ -33,7 +33,6 @@ public class NpcController : MonoBehaviour {
         this.direction = direction;
     }
     
-	// Update is called once per frame
 	void Update () {
         if (direction == Direction.STANDING)
             return;
@@ -70,5 +69,14 @@ public class NpcController : MonoBehaviour {
             controller.endInteraction(gameObject);
 
         direction = pausedDirection;
+    }
+
+
+    public void talkToPlayer()
+    {
+        Text text = gameObject.GetComponentInChildren<Canvas>().GetComponentInChildren<Text>();
+        NpcController npc = gameObject.GetComponent<NpcController>();
+        npc.setDirection(NpcController.Direction.STANDING);
+        text.enabled = true;
     }
 }

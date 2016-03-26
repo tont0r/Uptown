@@ -29,11 +29,8 @@ public class Controller : MonoBehaviour {
         if (interacting)
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
-            {                
-                Text text = npcObject.GetComponentInChildren<Canvas>().GetComponentInChildren<Text>();
-                NpcController npc = npcObject.GetComponent<NpcController>();
-                npc.setDirection(NpcController.Direction.STANDING);
-                text.enabled = true;
+            {
+                npcObject.GetComponent<NpcController>().talkToPlayer();                        
                 talking = true;
             }
         }   
