@@ -84,4 +84,5 @@ public class NpcController : MonoBehaviour {
         npc.setDirection(NpcController.Direction.STANDING);
         //text.enabled = true;
     }
+
 }
