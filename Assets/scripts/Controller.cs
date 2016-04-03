@@ -41,6 +41,7 @@ public class Controller : MonoBehaviour {
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
+                Debug.Log("did this happen?");
                 dialogFlowchart.SendFungusMessage("hi");
                 npcObject.GetComponent<NpcController>().talkToPlayer();                        
                 talking = true;
@@ -72,6 +73,7 @@ public class Controller : MonoBehaviour {
         {                           
             Text text = npcObject.GetComponentInChildren<Canvas>().GetComponentInChildren<Text>();
             text.enabled = false;
+            dialogFlowchart.enabled = false;
             interacting = false;
             talking = false;
             npcObject = null;
@@ -93,6 +95,18 @@ public class Controller : MonoBehaviour {
     {
         moneyText.text = "Money :" + money;
         flowChart.SetIntegerVariable("money", money);
+    }
+
+    public void collectMoney(int money,int time)
+    {
+        this.money += money;
+        updateMoney();
+        Debug.Log(time);
+    }
+
+    public void resetPlayer()
+    {
+        transform.position = new Vector3(-20, transform.position.y);
     }
     
 }
