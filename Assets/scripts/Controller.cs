@@ -7,15 +7,16 @@ public class Controller : MonoBehaviour {
     public int speed = 5;
     public Flowchart flowChart;
     public Text moneyText;
-
+    public Flowchart dialogFlowchart;
     private int money = 50;
     private bool inFlowChart;
+    
     private bool interacting;
     private GameObject npcObject;
     private bool talking;
 
 	void Start () {
-        flowChart.SetIntegerVariable("money",money);
+        flowChart.SetIntegerVariable("money",money);        
         updateMoney();
     }
 	
@@ -40,6 +41,7 @@ public class Controller : MonoBehaviour {
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
+                dialogFlowchart.SendFungusMessage("hi");
                 npcObject.GetComponent<NpcController>().talkToPlayer();                        
                 talking = true;
             }
@@ -48,20 +50,26 @@ public class Controller : MonoBehaviour {
 
     public void beginInteraction(GameObject gameObject)
     {
-        if (talking)
+        if (talking) {
+            dialogFlowchart.enabled = false;
             return;
+        }
+       // 
         interacting = gameObject != null;
         npcObject = gameObject;
     }
 
     public void endInteraction(GameObject gameObject)
     {
+        Debug.Log("fff");
         NpcController newNpc = gameObject.GetComponent<NpcController>();
         NpcController currentNpc = (npcObject != null) ? npcObject.GetComponent<NpcController>() : null;
+        dialogFlowchart.enabled = false;
+
         if (currentNpc != null && newNpc.id != currentNpc.id)
             return;
         else
-        {
+        {                           
             Text text = npcObject.GetComponentInChildren<Canvas>().GetComponentInChildren<Text>();
             text.enabled = false;
             interacting = false;

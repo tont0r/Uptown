@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using Fungus;
 
 public class NpcController : MonoBehaviour {
     public float speed;
     public GameObject prefabDialogWindow;
 
     private GameObject dialogWindow;
-    private Direction pausedDirection;
+    public Direction pausedDirection;
+    private Flowchart dialogFlowchart;
+    private Controller controller;
     public int id;
 
     public enum Direction
@@ -47,9 +50,14 @@ public class NpcController : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag != "Player")
+       
+        if (other.tag != "Player")
             return;
-        Controller controller = other.gameObject.GetComponent<Controller>();
+        Debug.Log(controller);
+        if (controller == null)
+        {
+            controller = other.GetComponent<Controller>();
+        }
         if (controller != null)
         {
             controller.beginInteraction(gameObject);
@@ -59,10 +67,9 @@ public class NpcController : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag != "Player")             
+ 
+        if (other.tag != "Player")             
             return;
-        
-        Controller controller = other.gameObject.GetComponent<Controller>();
         if (controller != null)
             controller.endInteraction(gameObject);
 
@@ -72,9 +79,9 @@ public class NpcController : MonoBehaviour {
 
     public void talkToPlayer()
     {
-        Text text = gameObject.GetComponentInChildren<Canvas>().GetComponentInChildren<Text>();
+        //Text text = gameObject.GetComponentInChildren<Canvas>().GetComponentInChildren<Text>();
         NpcController npc = gameObject.GetComponent<NpcController>();
         npc.setDirection(NpcController.Direction.STANDING);
-        text.enabled = true;
+        //text.enabled = true;
     }
 }
