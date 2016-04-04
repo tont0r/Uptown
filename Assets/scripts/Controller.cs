@@ -64,12 +64,14 @@ public class Controller : MonoBehaviour {
         npcObject = gameObject;
     }
 
-    public void endDialogWithFungus()
+    public void endDialogWithFungus(bool affectClock)
     {
         NpcController currentNpc = (npcObject != null) ? npcObject.GetComponent<NpcController>() : null;
         if (currentNpc != null)
             currentNpc.continueWalking();
-        clock.paused = false;
+
+        if (affectClock)
+            clock.paused = false;
         dialogFlowchart.enabled = false;
         interacting = false;
         talking = false;
@@ -93,7 +95,7 @@ public class Controller : MonoBehaviour {
                 text.enabled = false;
                 
             }
-            endDialogWithFungus();
+            endDialogWithFungus(false);
         }
     }
 
