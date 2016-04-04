@@ -8,6 +8,9 @@ public class Controller : MonoBehaviour {
     public Flowchart flowChart;
     public Text moneyText;
     public Flowchart dialogFlowchart;
+    public Clock clock;
+
+
     private int money = 50;
     private bool inFlowChart;
     
@@ -41,8 +44,9 @@ public class Controller : MonoBehaviour {
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                Debug.Log("did this happen?");
+                clock.paused = true;
                 dialogFlowchart.SendFungusMessage("hi");
+
                 npcObject.GetComponent<NpcController>().talkToPlayer();                        
                 talking = true;
             }
@@ -60,23 +64,36 @@ public class Controller : MonoBehaviour {
         npcObject = gameObject;
     }
 
+    public void endDialogWithFungus()
+    {
+        NpcController currentNpc = (npcObject != null) ? npcObject.GetComponent<NpcController>() : null;
+        if (currentNpc != null)
+            currentNpc.continueWalking();
+        clock.paused = false;
+        dialogFlowchart.enabled = false;
+        interacting = false;
+        talking = false;
+        npcObject = null;
+    }
+
     public void endInteraction(GameObject gameObject)
     {
-        Debug.Log("fff");
         NpcController newNpc = gameObject.GetComponent<NpcController>();
         NpcController currentNpc = (npcObject != null) ? npcObject.GetComponent<NpcController>() : null;
         dialogFlowchart.enabled = false;
 
-        if (currentNpc != null && newNpc.id != currentNpc.id)
+
+        if (currentNpc != null && newNpc != null && newNpc.id != currentNpc.id)
             return;
         else
-        {                           
-            Text text = npcObject.GetComponentInChildren<Canvas>().GetComponentInChildren<Text>();
-            text.enabled = false;
-            dialogFlowchart.enabled = false;
-            interacting = false;
-            talking = false;
-            npcObject = null;
+        {        
+            if (npcObject != null)
+            {
+                Text text = npcObject.GetComponentInChildren<Canvas>().GetComponentInChildren<Text>();
+                text.enabled = false;
+                
+            }
+            endDialogWithFungus();
         }
     }
 
@@ -101,6 +118,7 @@ public class Controller : MonoBehaviour {
     {
         this.money += money;
         updateMoney();
+        clock.updateTime(time);
         Debug.Log(time);
     }
 

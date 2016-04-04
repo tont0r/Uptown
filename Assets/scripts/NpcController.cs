@@ -53,7 +53,6 @@ public class NpcController : MonoBehaviour {
        
         if (other.tag != "Player")
             return;
-        Debug.Log(controller);
         if (controller == null)
         {
             controller = other.GetComponent<Controller>();
@@ -73,6 +72,11 @@ public class NpcController : MonoBehaviour {
         if (controller != null)
             controller.endInteraction(gameObject);
 
+        continueWalking();
+    }
+
+    public void continueWalking()
+    {
         direction = pausedDirection;
     }
 
