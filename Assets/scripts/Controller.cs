@@ -31,11 +31,11 @@ public class Controller : MonoBehaviour {
         
         Vector3 newPosition = transform.position + (move * speed * Time.deltaTime);
         transform.position = newPosition;
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetAxis("Horizontal") > 0)
         {
             transform.localRotation = Quaternion.Euler(0, 180, 0);
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (Input.GetAxis("Horizontal") < 0)
         {
             transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
